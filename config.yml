@@ -1,0 +1,7 @@
+nomenclature:
+  name: yellow_pages
+  verboseName: Yellow pages
+description: Find what you need, when you need it
+baseUrls:
+  http: yellow_pages/
+isApi: true
