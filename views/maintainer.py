@@ -2,7 +2,7 @@ import swapper
 from rest_framework import filters, permissions, viewsets
 
 from kernel.enums.active_status import ActiveStatus
-from kernel.serializers.roles.maintainers import MaintainerSerializer
+from kernel.serializers.roles.maintainer import MaintainerSerializer
 
 Maintainer = swapper.load_model('kernel', 'Maintainer')
 
