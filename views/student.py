@@ -2,9 +2,10 @@ import swapper
 from rest_framework import filters, permissions, viewsets
 
 from kernel.enums.active_status import ActiveStatus
-from kernel.serializers.roles.student import StudentSerializer
+from omniport.utils import switcher
 
 Student = swapper.load_model('kernel', 'Student')
+StudentSerializer = switcher.load_serializer('kernel', 'Student')
 
 
 class StudentViewSet(viewsets.ReadOnlyModelViewSet):
