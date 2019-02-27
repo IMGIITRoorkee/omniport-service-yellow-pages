@@ -1,5 +1,3 @@
-from django.apps import AppConfig
+from configuration.utils.app_config_class import get_app_config_class
 
-
-class YellowPagesConfig(AppConfig):
-    name = 'yellow_pages'
+Config = get_app_config_class(__file__)
