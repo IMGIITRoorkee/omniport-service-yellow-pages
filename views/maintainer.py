@@ -1,7 +1,7 @@
 import swapper
 from rest_framework import filters, permissions, viewsets
 
-from kernel.enums.active_status import ActiveStatus
+from formula_one.enums.active_status import ActiveStatus
 from omniport.utils import switcher
 
 Maintainer = swapper.load_model('kernel', 'Maintainer')
