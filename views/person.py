@@ -1,7 +1,9 @@
 import swapper
 from rest_framework import filters, permissions, viewsets
 
-from kernel.serializers.person import AvatarSerializer
+from omniport.utils import switcher
+
+AvatarSerializer = switcher.load_serializer('kernel', 'Person', 'Avatar')
 
 Person = swapper.load_model('kernel', 'Person')
 
