@@ -1,5 +1,7 @@
 import swapper
-from rest_framework import filters, permissions, viewsets
+from rest_framework import permissions, viewsets
+
+from django.db.models import Q
 
 from omniport.utils import switcher
 
@@ -15,26 +17,23 @@ class PersonViewSet(viewsets.ReadOnlyModelViewSet):
 
     permission_classes = [permissions.IsAuthenticated, ]
 
-    queryset = Person.objects.all()
     serializer_class = AvatarSerializer
-
-    filter_backends = [filters.SearchFilter, ]
-    search_fields = [
-        # Self
-        'short_name',
-        'full_name',
-
-        # User
-        'user__username',
-
-        # Student
-        'student__enrolment_number',
-
-        # Contact information
-        'contact_information__primary_phone_number',
-        'contact_information__secondary_phone_number',
-        'contact_information__email_address',
-        'contact_information__institute_webmail_address',
-    ]
-
     pagination_class = None
+
+    def get_queryset(self):
+        """
+        :return: ten person search objects
+        """
+
+        query = self.request.query_params.get('search', None)
+        person = Person.objects.filter(
+            Q(short_name__icontains=query) |
+            Q(full_name__icontains=query) |
+            Q(user__username__icontains=query) |
+            Q(student__enrolment_number__icontains=query) |
+            Q(contact_information__primary_phone_number__icontains=query) |
+            Q(contact_information__secondary_phone_number__icontains=query) |
+            Q(contact_information__email_address__icontains=query) |
+            Q(contact_information__institute_webmail_address__icontains=query)
+        )
+        return person[:10]
