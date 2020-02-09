@@ -8,9 +8,9 @@ from yellow_pages.views.student import StudentViewSet
 app_name = 'yellow_pages'
 
 router = routers.SimpleRouter()
-router.register('person', PersonViewSet, base_name='person')
-router.register('maintainer', MaintainerViewSet, base_name='maintainer')
-router.register('student', StudentViewSet, base_name='student')
+router.register('person', PersonViewSet, basename='person')
+router.register('maintainer', MaintainerViewSet, basename='maintainer')
+router.register('student', StudentViewSet, basename='student')
 
 urlpatterns = [
     path('', include(router.urls)),
