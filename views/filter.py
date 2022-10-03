@@ -72,20 +72,20 @@ class FilterViewSet(viewsets.ReadOnlyModelViewSet):
         """
         Filter based on Branch and Degree and Year
         """
-        queryset_by = Person.objects.none()
-        by = params.get('by', None)
+        queryset_branch_year = Person.objects.none()
+        branch_year = params.get('branch_year', None)
         
-        if by:
-            by_array = by.split(',')
-            for by_obj in by_array:
-                by_obj = by_obj.split('.')
-                by_year = by_obj[0]
-                by_branch = by_obj[1]
-                by_people = Person.objects.filter(
+        if branch_year:
+            branch_year_array = branch_year.split(',')
+            for branch_year_obj in branch_year_array:
+                branch_year_obj = branch_year_obj.split('.')
+                branch_year_year = branch_year_obj[0]
+                branch_year_branch = branch_year_obj[1]
+                branch_year_people = Person.objects.filter(
                     Q(student__isnull=False)&
-                    Q(student__current_year=by_year)&
-                    Q(student__branch__code=by_branch))
-                queryset_by |= (queryset&by_people)
+                    Q(student__current_year=branch_year_year)&
+                    Q(student__branch__code=branch_year_branch))
+                queryset_branch_year |= (queryset&branch_year_people)
 
         """
         Filter students
@@ -102,7 +102,7 @@ class FilterViewSet(viewsets.ReadOnlyModelViewSet):
             queryset = Person.objects.none()
 
         queryset = queryset.filter(**filters)
-        queryset |= queryset_by
+        queryset |= queryset_branch_year
         queryset = queryset.order_by('-datetime_modified')
 
         return queryset
