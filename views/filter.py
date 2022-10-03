@@ -108,7 +108,7 @@ class FilterViewSet(viewsets.ReadOnlyModelViewSet):
         return queryset
 
     @action(detail=False, methods=['get'])
-    def get_data(self, request):
+    def get_branches_degrees(self, request):
         response = {}
 
         branches = Branch.objects.all()
