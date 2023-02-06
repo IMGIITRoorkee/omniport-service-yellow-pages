@@ -1,5 +1,8 @@
 import swapper
+
 from rest_framework import permissions, viewsets
+from rest_framework.response import Response
+from rest_framework import status
 
 from django.db.models import Q
 
@@ -26,14 +29,16 @@ class PersonViewSet(viewsets.ReadOnlyModelViewSet):
         """
 
         query = self.request.query_params.get('search', None)
-        person = Person.objects.filter(
-            Q(short_name__icontains=query) |
-            Q(full_name__icontains=query) |
-            Q(user__username__icontains=query) |
-            Q(student__enrolment_number__icontains=query) |
-            Q(contact_information__primary_phone_number__icontains=query) |
-            Q(contact_information__secondary_phone_number__icontains=query) |
-            Q(contact_information__email_address__icontains=query) |
-            Q(contact_information__institute_webmail_address__icontains=query)
-        )
-        return person[:10]
+        if query:
+            person = Person.objects.filter(
+                Q(short_name__icontains=query) |
+                Q(full_name__icontains=query) |
+                Q(user__username__icontains=query) |
+                Q(student__enrolment_number__icontains=query) |
+                Q(contact_information__primary_phone_number__icontains=query) |
+                Q(contact_information__secondary_phone_number__icontains=query) |
+                Q(contact_information__email_address__icontains=query) |
+                Q(contact_information__institute_webmail_address__icontains=query)
+            )
+            return person[:10]
+        return Person.objects.none()
