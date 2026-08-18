@@ -8,9 +8,7 @@ from rest_framework.response import Response
 
 from django.db.models import Q
 
-from omniport.utils import switcher
-
-AvatarSerializer = switcher.load_serializer('kernel', 'Person', 'Avatar')
+from yellow_pages.serializers.person import PersonIDSerializer
 
 Person = swapper.load_model('kernel', 'Person')
 Branch = swapper.load_model('Kernel', 'Branch')
@@ -22,7 +20,7 @@ class FilterViewSet(viewsets.ReadOnlyModelViewSet):
     """
 
     permission_classes = [permissions.IsAuthenticated, ]
-    serializer_class = AvatarSerializer
+    serializer_class = PersonIDSerializer
     pagination_class = None
 
     def get_queryset(self):
